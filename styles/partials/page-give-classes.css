@@ -134,7 +134,7 @@
         column-gap: 1.6rem;
     }
 
-    #page-give-classes #shcdule-items .select-block+.input-block,
+    #page-give-classes #schedule-items .select-block+.input-block,
     #page-give-classes #schedule-items .input-block+.input-block{
         margin-top: 0;
     }
