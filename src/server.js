@@ -1,3 +1,4 @@
+// Dadis
 const proffys = [
     {name: "Gabriel Pereira", 
     avatar:"https://avatars3.githubusercontent.com/u/61991172?s=460&u=83130f85d0af1735f7d589145003ea05fa058b78&v=4", 
@@ -35,7 +36,7 @@ const proffys = [
 
 ]
 
-const sujects =[
+const subjects =[
     "Artes",
     "Biologia",
     "Ciências",
@@ -48,30 +49,63 @@ const sujects =[
     "Química",
 ]
 
+const weekdays = [
+    "Domingo",
+    "Segunda-feira",
+    "Terça-feira",
+    "Quarta-feira",
+    "Quinta-feira",
+    "Sexta-feira",
+    "Sábado",
+]
+
+//Funcionalidades
+
+function getSubject(subjectNumber){
+    const position = +subjectNumber - 1
+    return subjects[position]
+}
+
 function pageLanding(req, res) {
     return res.render("index.html")
 }
 
 function pageStudy(req, res) {
-    const filter =req.query
-    return res.render("study.html", { proffys, filters, subjects})
+    const filters =req.query
+    return res.render("study.html", { proffys, filters, subjects , weekdays})
 }
 
 function pageGiveClasses(req, res) {
-    return res.render("give-classes.html")
+    const data = req.query
+
+    const isNotEmpty = Object.keys(data).length != 0
+
+    if (isNotEmpty) {
+
+        data.subject = getSubject(data.subject)
+        
+        proffys.push (data)
+
+        return res.redirect("/study")
+    }
+    
+
+    return res.render("give-classes.html" , { subjects, weekdays})
 }
 
+//Servidor
 const express = require('express')
 const server = express()
 
 
-//configurar nunjucks
+//configurar nunjucks (template engine)
 const nunjucks= require ('nunjucks')
 nunjucks.configure('src/views', {
     express: server ,
     noCache: true,
 })
 
+//Inicio e configuração do server
 server
 // configurar arquivos estáticos (css,scripts, imagens)
 .use(express.static("public"))
@@ -79,5 +113,6 @@ server
 .get("/", pageLanding) 
 .get("/study" , pageStudy)
 .get("/give-classes", pageGiveClasses)
+//start do servidor
 .listen(5500)
 
