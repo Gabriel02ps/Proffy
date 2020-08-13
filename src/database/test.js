@@ -8,12 +8,12 @@ Database.then(async(db) => {
         name: "Gabriel Pereira", 
         avatar:"https://avatars3.githubusercontent.com/u/61991172?s=460&u=83130f85d0af1735f7d589145003ea05fa058b78&v=4", 
         whatsapp: "85 98676-3648", 
-        bio :"Entusiasta das melhores tecnologias de química avançada.     Apaixonado por explodir coisas em laboratório e por mudar a vida das pessoas através de experiências. Mais de 200.000 pessoas já passaram por uma das minhas explosões.",    
+        bio :"Entusiasta das melhores tecnologias de química avançada.    Apaixonado por explodir coisas em laboratório e por mudar a vida das pessoas através de experiências. Mais de 200.000 pessoas já passaram por uma das minhas explosões.",    
 
     }
 
     classValue = {
-        subject: "Química", 
+        subject: 1, 
         cost: "20", 
         // o proffy id virá pelo banco de dados
     }
@@ -47,7 +47,17 @@ Database.then(async(db) => {
         JOIN classes ON (classes.proffy_id = proffys.id)
         WHERE classes.proffy_id = 1;
     `)
-    console.log(selectClassesAndProffys)
+    //console.log(selectClassesAndProffys)
 
-    // 
+    const selectClassesSchedules = await db.all(`
+        SELECT class_schedule.*
+        FROM class_schedule 
+        WHERE class_schedule.class_id = "1"
+        AND class_schedule.weekday = "0"
+        AND class_schedule.time_from <= "1300"
+        AND class_schedule.time_to > "1300"
+    `)
+
+    // console.log(selectClassesSchedules)
+    
 })
